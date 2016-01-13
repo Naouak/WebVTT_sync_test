@@ -6,12 +6,17 @@
 <script>
 	var v = document.getElementsByTagName("video")[0];
 	var t = document.getElementsByTagName("track")[0];
+	var lastEnd = null;
 	t.oncuechange = function(){
-		// "this" is a textTrack
+		console.log("Event Cue Change");
+		if(lastEnd){
+			console.log("Delay out: %s ms", ((v.currentTime - lastEnd) * 1000)|0);
+			lastEnd = null;
+		}
 		var cue = v.textTracks[0].activeCues[0]; // assuming there is only one active cue
 		if(cue){
-			console.log(v.currentTime, cue.startTime, cue.endTime);
-			console.log("Delay: %s",v.currentTime - cue.startTime);
+			console.log("Delay int: %s ms",((v.currentTime - cue.startTime) * 1000)|0);
+			lastEnd = cue.endTime;
 		}
 	}
 </script>
