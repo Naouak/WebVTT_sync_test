@@ -1,4 +1,17 @@
-<video controls width="1024" height="576">
+<video controls width="1024" height="576" autoplay>
 	<source src="ED_HD.mp4" />
-	<track src="ED_HD.vtt" kind="subtitles" mode="showing" default />
+	<track src="ED_HD.vtt" kind="subtitles" default />
 </video>
+
+<script>
+	var v = document.getElementsByTagName("video")[0];
+	var t = document.getElementsByTagName("track")[0];
+	t.oncuechange = function(){
+		// "this" is a textTrack
+		var cue = v.textTracks[0].activeCues[0]; // assuming there is only one active cue
+		if(cue){
+			console.log(v.currentTime, cue.startTime, cue.endTime);
+			console.log("Delay: %s",v.currentTime - cue.startTime);
+		}
+	}
+</script>
